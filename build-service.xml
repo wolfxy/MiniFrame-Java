@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project default="jar" name="com.chedu-file-system" basedir=".">
+    <property name="project" value="mini-jserver-frame" />
+    <property name="module" value="Mini-Service" />
+    <property name="src" value="${module}/src/java" />
+    <property name="classes" value="${module}/classes" />
+    <property name="lib" value="${module}/lib" />
+    <property name="dest" value="dest/${module}" />
+    <property name="temp" value="temp" />
+    <property name="log" value="${dest}/log" />
+    <property name="res" value="res" />
+    <property name="manifest" value="${module}/MANIFEST.MF" />
+    <path id="project.class.path">
+        <fileset dir="${lib}">
+            <include name="**/*.jar">
+            </include>
+        </fileset>
+    </path>
+
+    <target name="init">
+        <echo>+-----------------------------------------------------+</echo>
+        <echo>|                                                     |</echo>
+        <echo>|                   Running Builder                   |</echo>
+        <echo>|                                                     |</echo>
+        <echo>+-----------------------------------------------------+</echo>
+    </target>
+
+    <target name="compile" depends="init,clear">
+        <javac srcdir="${src}" destdir="${classes}" encoding="utf-8" debug="true">
+            <classpath refid="project.class.path" />
+        </javac>
+        <copy todir="${temp}">
+            <fileset dir="${classes}">
+                <exclude name="**/Test.class"/>
+            </fileset>
+            <fileset dir="${src}">
+                <include name="**/*.xml"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="jar" depends="compile">
+        <jar destfile="${dest}/${project}.jar" basedir="${temp}" manifest="${manifest}" />
+        <mkdir dir="${dest}/conf"/>
+        <delete dir="${temp}" />
+        <delete dir="${classes}"/>
+    </target>
+
+    <target name="clear">
+        <mkdir dir="${dest}"/>
+        <mkdir dir="${classes}" />
+        <mkdir dir="${temp}" />
+        <delete>
+            <fileset dir="${dest}">
+                <include name="**/*"/>
+            </fileset>
+        </delete>
+        <mkdir dir="${log}"/>
+    </target>
+
+</project>
