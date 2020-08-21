@@ -1,7 +1,6 @@
 package org.mini.http.server.java;
 
 import org.apache.log4j.Logger;
-import org.mini.http.server.java.HttpQueryParser;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -55,7 +54,7 @@ public class HttpRequest implements org.mini.http.engine.HttpRequest {
         this.parameters = parameters;
     }
 
-    public String getPostParamte(String name) {
+    public String getPostParamter(String name) {
         if (postParameters == null) {
             BufferedReader reader = null;
             try {

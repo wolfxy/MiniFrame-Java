@@ -29,5 +29,5 @@ public interface HttpRequest {
 
     void setHeaders(Map<String, String> headers);
 
-    public String getPostParamte(String name);
+    String getPostParamter(String name);
 }
