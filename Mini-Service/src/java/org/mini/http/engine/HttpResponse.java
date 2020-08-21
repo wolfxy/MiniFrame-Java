@@ -7,9 +7,9 @@ public interface HttpResponse {
      void setData(Object data);
     
 
-     void sendRedirect(String url);
-
      void redirect(String url);
+
+     void forward(String url);
 
      String getLocation();
 

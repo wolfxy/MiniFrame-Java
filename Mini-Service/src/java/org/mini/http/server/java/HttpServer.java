@@ -67,7 +67,7 @@ public class HttpServer implements HttpHandler {
             
             String redirectAddress = response.getRedirectAddress();
             if (redirectAddress != null) {
-                logger.info("redirect address: " + redirectAddress);
+                logger.info("forward address: " + redirectAddress);
                 try {
                     forward(redirectAddress, httpExchange);
                 } catch (Exception e) {

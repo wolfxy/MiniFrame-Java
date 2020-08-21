@@ -17,7 +17,7 @@ public class HttpResponse implements org.mini.http.engine.HttpResponse {
     }
     
 
-    public void sendRedirect(String url)
+    public void redirect(String url)
     {
         location = url;
     }
@@ -30,7 +30,7 @@ public class HttpResponse implements org.mini.http.engine.HttpResponse {
         this.location = location;
     }
 
-    public void redirect(String url)
+    public void forward(String url)
     {
         this.redirectAddress = url;
     }
