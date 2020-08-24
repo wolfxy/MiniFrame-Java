@@ -6,9 +6,6 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.apache.log4j.Logger;
 import org.mini.http.engine.Dispatcher;
-import org.mini.http.server.java.HttpQueryParser;
-import org.mini.http.server.java.HttpRequest;
-import org.mini.http.server.java.HttpResponse;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,20 +45,21 @@ public class HttpServer implements HttpHandler {
             String path = uri.getPath();
             HttpRequest request = new HttpRequest();
             request.setPath(path);
-            Headers requestheaders = httpExchange.getRequestHeaders();
+            Headers requestHeaders = httpExchange.getRequestHeaders();
             Map map = new HashMap();
-            for (String k : requestheaders.keySet()) {
-                List<String> v = requestheaders.get(k);
+            for (String k : requestHeaders.keySet()) {
+                List<String> v = requestHeaders.get(k);
                 StringBuilder stringBuilder = new StringBuilder();
                 for (String s : v) {
-                    stringBuilder.append(v).append("; ");
+                    stringBuilder.append(s).append("; ");
                 }
                 map.put(k, stringBuilder.toString());
             }
             request.setHeaders(map);
             request.setInputStream(httpExchange.getRequestBody());
             request.setParameters(HttpQueryParser.queryToMap(httpExchange));
-
+            request.setExchange(httpExchange);
+            
             HttpResponse response = new HttpResponse();
             Dispatcher.dispatch(request, response);
             

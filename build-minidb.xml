@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project default="jar" name="chedu-sms-dbsdk" basedir=".">
+	<property name="project" value="minidb" />
+    <property name="module" value="Mini-DB" />
+	<property name="src" value="${module}/src/java" />
+	<property name="classes" value="classes" />
+    <property name="lib" value="${module}/lib" />
+	<property name="dest" value="dest/${module}" />
+	<property name="temp" value="temp" />	
+	<property name="log" value="${dest}/log" />
+    <property name="conf" value="${module}/conf" />
+    <property name="res" value="res" />
+	<property name="manifest" value="${module}/MANIFEST.MF" />
+    <property name="SVN" value="/Users/Wuquancheng/Documents/workspace/work/svn/sms/bjedu-db-sdk/cihang-sms"/>
+	<path id="project.class.path">
+		<fileset dir="${lib}">
+			<include name="**/*.jar">
+			</include>
+		</fileset>
+	</path>
+
+	<target name="init">
+		<echo>+-----------------------------------------------------+</echo>
+		<echo>|                                                     |</echo>
+		<echo>|                   Running Builder                   |</echo>
+		<echo>|                                                     |</echo>
+		<echo>+-----------------------------------------------------+</echo>
+	</target>
+
+	<target name="compile" depends="init,clear">
+        <javac srcdir="${src}" destdir="${classes}" encoding="utf-8" debug="true">
+            <classpath refid="project.class.path" />
+        </javac>
+        <unjar dest="${temp}">
+            <fileset dir="${lib}" includes="*.jar"/>
+        </unjar>
+        <copy todir="${temp}">
+            <fileset dir="${classes}">
+                <exclude name="**/Test.class"/>
+            </fileset>
+			<fileset dir="${src}">
+				<include name="**/*.xml"/>
+			</fileset>
+        </copy>
+	</target>
+
+	<target name="jar" depends="compile">
+		<jar destfile="${dest}/${project}.jar" basedir="${temp}" manifest="${manifest}" />
+        <mkdir dir="${dest}/conf"/>
+		<delete dir="${temp}" />
+		<delete dir="${classes}"/>
+	</target>
+	
+	<target name="clear">
+        <mkdir dir="${dest}"/>
+		<mkdir dir="${classes}" />
+		<mkdir dir="${temp}" />
+		<delete>
+			<fileset dir="${dest}">
+			    <include name="**/*"/>	    
+			</fileset>
+        </delete>
+		<mkdir dir="${log}"/>
+	</target>
+
+</project>

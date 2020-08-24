@@ -29,5 +29,7 @@ public interface HttpRequest {
 
     void setHeaders(Map<String, String> headers);
 
-    String getPostParamter(String name);
+    String getPostParameter(String name);
+
+    String getRemoteAddress();
 }

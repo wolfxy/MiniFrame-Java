@@ -1,10 +1,12 @@
 package org.mini.http.server.java;
 
+import com.sun.net.httpserver.HttpExchange;
 import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
 import java.util.Map;
 
 public class HttpRequest implements org.mini.http.engine.HttpRequest {
@@ -13,6 +15,8 @@ public class HttpRequest implements org.mini.http.engine.HttpRequest {
 
     InputStream inputStream;
     int contentLength;
+
+    private HttpExchange httpExchange;
 
     private String path;
 
@@ -54,7 +58,7 @@ public class HttpRequest implements org.mini.http.engine.HttpRequest {
         this.parameters = parameters;
     }
 
-    public String getPostParamter(String name) {
+    public String getPostParameter(String name) {
         if (postParameters == null) {
             BufferedReader reader = null;
             try {
@@ -99,5 +103,24 @@ public class HttpRequest implements org.mini.http.engine.HttpRequest {
 
     public void setHeaders(Map<String, String> headers) {
         this.headers = headers;
+    }
+
+    public void setExchange(HttpExchange httpExchange)
+    {
+        this.httpExchange = httpExchange;
+    }
+
+    public String getRemoteAddress()
+    {
+        if (this.httpExchange != null) {
+            java.net.InetSocketAddress address = this.httpExchange.getRemoteAddress();
+            logger.info("RemoteAddress: " + address.toString());
+            InetAddress inetAddress = address.getAddress();
+            if (inetAddress != null) {
+                return inetAddress.getHostAddress();
+            }
+            return address.getHostString();
+        }
+        return null;
     }
 }
